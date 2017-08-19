@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>ChessKit</title>
+    <link rel="stylesheet" href="css/chessboard-0.3.0.css" />
+</head>
+
+<body>
+    <h1>Welcome to ChessKit
+    </h1>
+
+    <div id="board" style="width: 400px"></div>
+
+    <script src="js/jquery-1.12.4.min.js"></script>
+    <script src="js/chess.min.js"></script>
+    <script src="js/chessboard-0.3.0.js"></script>
+    <script>
+        var init = function () {
+            var board = ChessBoard('board');
+        };
+        $(document).ready(init);
+
+        var start = function () {
+            var board = ChessBoard('board', 'start');
+        };
+    </script>
+
+    <form>
+        <input type="button" onclick="javascript:init()" value="Empty" />
+        <input type="button" onclick="javascript:start()" value="Start" />
+    </form>
+</body>
+
+</html>
