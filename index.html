@@ -4,165 +4,174 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <title>ChessKit</title>
+
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="css/chessboard-0.3.0.css" />
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/popper/umd/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/chess.min.js"></script>
+    <script src="js/chessboard-0.3.0.js"></script>
 </head>
 
 <body>
-    <h1>Welcome to ChessKit
-    </h1>
+    <div class="body">
+        <div class="container-fluid">
+            <h1>Welcome to ChessKit</h1>
 
-    <div id="board1" style="width: 400px; float: left; margin-right: 10px"></div>
-    <div id="board2" style="width: 400px; float: left; margin-right: 10px"></div>
-    <div id="board3" style="width: 400px; float: left"></div>
-    <div style="clear:both"></div>
+            <div id="board1" style="width: 400px; float: left; margin-right: 10px"></div>
+            <div id="board2" style="width: 400px; float: left; margin-right: 10px"></div>
+            <div id="board3" style="width: 400px; float: left"></div>
+            <div style="clear:both"></div>
+            <div id="info" class="mb-4">
+                Status: <span id="status"></span><br /> FEN: <span id="fen"></span><br /> PGN: <span id="pgn"></span>
+            </div>
 
-    <script src="js/jquery-1.12.4.min.js"></script>
-    <script src="js/chess.min.js"></script>
-    <script src="js/chessboard-0.3.0.js"></script>
-    <script>
-        var init = function () {
-            var board = ChessBoard('board1');
-        };
-        $(document).ready(init);
+            <script>
+                var init = function () {
+                    var board = ChessBoard('board1');
+                };
+                $(document).ready(init);
 
-        var start = function () {
-            var board = ChessBoard('board1', 'start');
-        };
+                var start = function () {
+                    var board = ChessBoard('board1', 'start');
+                };
 
-        var fen = function () {
-            var ruyLopez = $("#op").find('input[name="fenstr"]').val();
-            var board = ChessBoard('board1', ruyLopez);
-        };
+                var fen = function () {
+                    var ruyLopez = $("#op").find('input[name="fenstr"]').val();
+                    var board = ChessBoard('board1', ruyLopez);
+                };
 
-        var pos = function () {
-            var position = {
-                d6: 'bK',
-                d4: 'wP',
-                e4: 'wK'
-            };
-            var board = ChessBoard('board1', position);
-        };
+                var pos = function () {
+                    var position = {
+                        d6: 'bK',
+                        d4: 'wP',
+                        e4: 'wK'
+                    };
+                    var board = ChessBoard('board1', position);
+                };
 
-        var multi = function () {
-            var board1 = ChessBoard('board1', {
-                position: 'start',
-                showNotation: false
-            });
+                var multi = function () {
+                    var board1 = ChessBoard('board1', {
+                        position: 'start',
+                        showNotation: false
+                    });
 
-            var board2 = ChessBoard('board2', {
-                position: 'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R',
-                showNotation: false
-            });
+                    var board2 = ChessBoard('board2', {
+                        position: 'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R',
+                        showNotation: false
+                    });
 
-            var board3 = ChessBoard('board3', {
-                position: 'r1k4r/p2nb1p1/2b4p/1p1n1p2/2PP4/3Q1NB1/1P3PPP/R5K1',
-                showNotation: false
-            });
-        }
-
-        var config = function () {
-            var board,
-                game = new Chess(),
-                statusEl = $('#status'),
-                fenEl = $('#fen'),
-                pgnEl = $('#pgn');
-
-            // do not pick up pieces if the game is over
-            // only pick up pieces for the side to move
-            var onDragStart = function (source, piece, position, orientation) {
-                if (game.game_over() === true ||
-                    (game.turn() === 'w' && piece.search(/^b/) !== -1) ||
-                    (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
-                    return false;
-                }
-            };
-
-            var onDrop = function (source, target) {
-                // see if the move is legal
-                var move = game.move({
-                    from: source,
-                    to: target,
-                    promotion: 'q' // NOTE: always promote to a queen for example simplicity
-                });
-
-                // illegal move
-                if (move === null) return 'snapback';
-
-                updateStatus();
-            };
-
-            // update the board position after the piece snap 
-            // for castling, en passant, pawn promotion
-            var onSnapEnd = function () {
-                board.position(game.fen());
-            };
-
-            var updateStatus = function () {
-                var status = '';
-
-                var moveColor = 'White';
-                if (game.turn() === 'b') {
-                    moveColor = 'Black';
+                    var board3 = ChessBoard('board3', {
+                        position: 'r1k4r/p2nb1p1/2b4p/1p1n1p2/2PP4/3Q1NB1/1P3PPP/R5K1',
+                        showNotation: false
+                    });
                 }
 
-                // checkmate?
-                if (game.in_checkmate() === true) {
-                    status = 'Game over, ' + moveColor + ' is in checkmate.';
+                var config = function () {
+                    var board,
+                        game = new Chess(),
+                        statusEl = $('#status'),
+                        fenEl = $('#fen'),
+                        pgnEl = $('#pgn');
+
+                    // do not pick up pieces if the game is over
+                    // only pick up pieces for the side to move
+                    var onDragStart = function (source, piece, position, orientation) {
+                        if (game.game_over() === true ||
+                            (game.turn() === 'w' && piece.search(/^b/) !== -1) ||
+                            (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
+                            return false;
+                        }
+                    };
+
+                    var onDrop = function (source, target) {
+                        // see if the move is legal
+                        var move = game.move({
+                            from: source,
+                            to: target,
+                            promotion: 'q' // NOTE: always promote to a queen for example simplicity
+                        });
+
+                        // illegal move
+                        if (move === null) return 'snapback';
+
+                        updateStatus();
+                    };
+
+                    // update the board position after the piece snap 
+                    // for castling, en passant, pawn promotion
+                    var onSnapEnd = function () {
+                        board.position(game.fen());
+                    };
+
+                    var updateStatus = function () {
+                        var status = '';
+
+                        var moveColor = 'White';
+                        if (game.turn() === 'b') {
+                            moveColor = 'Black';
+                        }
+
+                        // checkmate?
+                        if (game.in_checkmate() === true) {
+                            status = 'Game over, ' + moveColor + ' is in checkmate.';
+                        }
+
+                        // draw?
+                        else if (game.in_draw() === true) {
+                            status = 'Game over, drawn position';
+                        }
+
+                        // game still on
+                        else {
+                            status = moveColor + ' to move';
+
+                            // check?
+                            if (game.in_check() === true) {
+                                status += ', ' + moveColor + ' is in check';
+                            }
+                        }
+
+                        statusEl.html(status);
+                        fenEl.html(game.fen());
+                        pgnEl.html(game.pgn());
+                    };
+
+                    var cfg = {
+                        draggable: true,
+                        position: 'start',
+                        onDragStart: onDragStart,
+                        onDrop: onDrop,
+                        onSnapEnd: onSnapEnd
+                    };
+                    board = ChessBoard('board1', cfg);
+
+                    updateStatus();
                 }
+            </script>
 
-                // draw?
-                else if (game.in_draw() === true) {
-                    status = 'Game over, drawn position';
-                }
+            <form id="op">
+                <div class="input-group">
+                    <span class="input-group-addon">FEN</span>
+                    <input type="text" id="fenstr" class="form-control" name="fenstr" value="r1bqkbnr/pppp1ppp/2n5//1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R"
+                    />
+                </div>
 
-                // game still on
-                else {
-                    status = moveColor + ' to move';
-
-                    // check?
-                    if (game.in_check() === true) {
-                        status += ', ' + moveColor + ' is in check';
-                    }
-                }
-
-                statusEl.html(status);
-                fenEl.html(game.fen());
-                pgnEl.html(game.pgn());
-            };
-
-            var cfg = {
-                draggable: true,
-                position: 'start',
-                onDragStart: onDragStart,
-                onDrop: onDrop,
-                onSnapEnd: onSnapEnd
-            };
-            board = ChessBoard('board1', cfg);
-
-            updateStatus();
-        }
-    </script>
-
-    <div id="op">
-        <form>
-            <label for="fen">FEN String: </label>
-            <input type="text" id="fenstr" name="fenstr" size="60" value="r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R" />
-            <br />
-
-            <input type="button" onclick="javascript:init()" value="Empty" />
-            <input type="button" onclick="javascript:start()" value="Start" />
-            <input type="button" onclick="javascript:fen()" value="FEN" />
-            <input type="button" onclick="javascript:pos()" value="Position" />
-            <input type="button" onclick="javascript:multi()" value="Multiple" />
-
-            <input type="button" onclick="javascript:config()" value="Config" />
-        </form>
-    </div>
-    <div id="info">
-        <p>Status: <span id="status"></span></p>
-        <p>FEN: <span id="fen"></span></p>
-        <p>PGN: <span id="pgn"></span></p>
+                <div class="form-group my-2">
+                    <input type="button" class="btn btn-primary" onclick="javascript:init()" value="Empty" />
+                    <input type="button" class="btn btn-primary" onclick="javascript:start()" value="Start" />
+                    <input type="button" class="btn btn-primary" onclick="javascript:fen()" value="FEN" />
+                    <input type="button" class="btn btn-primary" onclick="javascript:pos()" value="Position" />
+                    <input type="button" class="btn btn-primary" onclick="javascript:multi()" value="Multiple" />
+                    <input type="button" class="btn btn-primary" onclick="javascript:config()" value="Config" />
+                </div>
+            </form>
+        </div>
     </div>
 </body>
 
