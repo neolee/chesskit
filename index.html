@@ -45,6 +45,22 @@
                     </label>
                 </div>
             </div>
+
+            <div class="input-group">
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label">
+                        <input id="whiteBtn" class="form-check-input" type="radio" name="orientationRadios" value="white" checked />
+                        As White
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label">
+                        <input id="blackBtn" class="form-check-input" type="radio" name="orientationRadios" value="black" />
+                        As Black
+                    </label>
+                </div>
+            </div>
+            
             <div class="input-group">
                 <span class="input-group-addon">FEN</span>
                 <input id="fenInput" type="text" class="form-control" value="r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R" />
@@ -61,16 +77,24 @@
 
     <script src="js/chesskit.js"></script>
     <script>
+        var gBoard1 = null;
+        var gBoard2 = null;
+        var gBoard3 = null;
+
         $(document).ready(init);
+
+        $('#singleBtn').on('click', single);
+        $('#multiBtn').on('click', multi);
+
+        var gOrientation = 'white';
+        $('#whiteBtn').on('click', white);
+        $('#blackBtn').on('click', black);
 
         $('#emptyBtn').on('click', init);
         $('#startBtn').on('click', start);
         $('#fenBtn').on('click', fen);
         $('#posBtn').on('click', pos);
         $('#configBtn').on('click', config);
-
-        $('#multiBtn').on('click', multi);
-        $('#singleBtn').on('click', single);
     </script>
 </body>
 
