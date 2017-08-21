@@ -1,14 +1,14 @@
 var init = function () {
-    var board = ChessBoard('board1');
+    var board1 = ChessBoard('board1');
 };
 
 var start = function () {
-    var board = ChessBoard('board1', 'start');
+    var board1 = ChessBoard('board1', 'start');
 };
 
 var fen = function () {
     var ruyLopez = $('#fenInput').val();
-    var board = ChessBoard('board1', ruyLopez);
+    var board1 = ChessBoard('board1', ruyLopez);
 };
 
 var pos = function () {
@@ -17,28 +17,32 @@ var pos = function () {
         d4: 'wP',
         e4: 'wK'
     };
-    var board = ChessBoard('board1', position);
+    var board1 = ChessBoard('board1', position);
 };
 
 var multi = function () {
-    var board1 = ChessBoard('board1', {
-        position: 'start',
-        showNotation: false
-    });
-
     var board2 = ChessBoard('board2', {
         position: 'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R',
         showNotation: false
     });
+    $('#board2').show();
 
     var board3 = ChessBoard('board3', {
         position: 'r1k4r/p2nb1p1/2b4p/1p1n1p2/2PP4/3Q1NB1/1P3PPP/R5K1',
         showNotation: false
     });
+    $('#board3').show();
+}
+
+var single = function () {
+    ChessBoard('board2').destroy;
+    $('#board2').hide();
+    ChessBoard('board3').destroy;
+    $('#board3').hide();
 }
 
 var config = function () {
-    var board,
+    var board1,
         game = new Chess(),
         statusEl = $('#statusInfo'),
         fenEl = $('#fenInfo'),
@@ -71,7 +75,7 @@ var config = function () {
     // update the board position after the piece snap 
     // for castling, en passant, pawn promotion
     var onSnapEnd = function () {
-        board.position(game.fen());
+        board1.position(game.fen());
     };
 
     var updateStatus = function () {
@@ -114,7 +118,7 @@ var config = function () {
         onDrop: onDrop,
         onSnapEnd: onSnapEnd
     };
-    board = ChessBoard('board1', cfg);
+    board1 = ChessBoard('board1', cfg);
 
     updateStatus();
 }

@@ -31,7 +31,21 @@
                 Status: <span id="statusInfo"></span><br /> FEN: <span id="fenInfo"></span><br /> PGN: <span id="pgnInfo"></span>
             </div>
 
-            <div id="op" class="input-group">
+            <div class="input-group">
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label">
+                        <input id="singleBtn" class="form-check-input" type="radio" name="boardRadios" value="single" checked />
+                        Single Board
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label">
+                        <input id="multiBtn" class="form-check-input" type="radio" name="boardRadios" value="multi" />
+                        Three Boards
+                    </label>
+                </div>
+            </div>
+            <div class="input-group">
                 <span class="input-group-addon">FEN</span>
                 <input id="fenInput" type="text" class="form-control" value="r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R" />
             </div>
@@ -40,7 +54,6 @@
                 <input id="startBtn" type="button" class="btn btn-primary" value="Start" />
                 <input id="fenBtn" type="button" class="btn btn-primary" value="FEN" />
                 <input id="posBtn" type="button" class="btn btn-primary" value="Position" />
-                <input id="multiBtn" type="button" class="btn btn-primary" value="Multiple" />
                 <input id="configBtn" type="button" class="btn btn-primary" value="Config" />
             </div>
         </div>
@@ -54,8 +67,10 @@
         $('#startBtn').on('click', start);
         $('#fenBtn').on('click', fen);
         $('#posBtn').on('click', pos);
-        $('#multiBtn').on('click', multi);
         $('#configBtn').on('click', config);
+
+        $('#multiBtn').on('click', multi);
+        $('#singleBtn').on('click', single);
     </script>
 </body>
 
