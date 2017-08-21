@@ -23,9 +23,9 @@
         <div class="container-fluid">
             <h1>Welcome to ChessKit</h1>
 
-            <div id="board1" style="width: 400px; float: left; margin-right: 10px"></div>
-            <div id="board2" style="width: 400px; float: left; margin-right: 10px"></div>
-            <div id="board3" style="width: 400px; float: left"></div>
+            <div id="board1" style="width: 300px; float: left; margin-right: 10px"></div>
+            <div id="board2" style="width: 300px; float: left; margin-right: 10px"></div>
+            <div id="board3" style="width: 300px; float: left"></div>
             <div style="clear:both"></div>
             <div id="info" class="mb-4">
                 Status: <span id="statusInfo"></span><br /> FEN: <span id="fenInfo"></span><br /> PGN: <span id="pgnInfo"></span>
@@ -60,7 +60,14 @@
                     </label>
                 </div>
             </div>
-            
+
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input id="notationBtn" class="form-check-input" type="checkbox" value="" checked />
+                    Show Notation (needs re-arrange to apply)
+                </label>
+            </div>
+
             <div class="input-group">
                 <span class="input-group-addon">FEN</span>
                 <input id="fenInput" type="text" class="form-control" value="r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R" />
@@ -89,6 +96,9 @@
         var gOrientation = 'white';
         $('#whiteBtn').on('click', white);
         $('#blackBtn').on('click', black);
+
+        var gNotation = true;
+        $('#notationBtn').on('click', toggleNotation);
 
         $('#emptyBtn').on('click', init);
         $('#startBtn').on('click', start);

@@ -1,10 +1,13 @@
 var init = function () {
-    gBoard1 = ChessBoard('board1');
+    gBoard1 = ChessBoard('board1', {
+        showNotation: gNotation
+    });
 };
 
 var start = function () {
     gBoard1 = ChessBoard('board1', {
         orientation: gOrientation,
+        showNotation: gNotation,
         position: 'start'
     });
 };
@@ -13,6 +16,7 @@ var fen = function () {
     var ruyLopez = $('#fenInput').val();
     gBoard1 = ChessBoard('board1', {
         orientation: gOrientation,
+        showNotation: gNotation,
         position: ruyLopez
     });
 };
@@ -25,6 +29,7 @@ var pos = function () {
     };
     gBoard1 = ChessBoard('board1', {
         orientation: gOrientation,
+        showNotation: gNotation,
         position: position
     });
 };
@@ -46,15 +51,15 @@ var black = function () {
 var multi = function () {
     gBoard2 = ChessBoard('board2', {
         orientation: gOrientation,
-        position: 'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R',
-        showNotation: false
+        showNotation: gNotation,
+        position: 'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R'
     });
     $('#board2').show();
 
     gBoard3 = ChessBoard('board3', {
         orientation: gOrientation,
-        position: 'r1k4r/p2nb1p1/2b4p/1p1n1p2/2PP4/3Q1NB1/1P3PPP/R5K1',
-        showNotation: false
+        showNotation: gNotation,
+        position: 'r1k4r/p2nb1p1/2b4p/1p1n1p2/2PP4/3Q1NB1/1P3PPP/R5K1'
     });
     $('#board3').show();
 }
@@ -64,6 +69,10 @@ var single = function () {
     $('#board2').hide();
     gBoard3.destroy;
     $('#board3').hide();
+}
+
+var toggleNotation = function () {
+    gNotation = !gNotation;
 }
 
 var config = function () {
@@ -137,6 +146,7 @@ var config = function () {
 
     var cfg = {
         orientation: gOrientation,
+        showNotation: gNotation,
         position: 'start',
         draggable: true,
         onDragStart: onDragStart,
