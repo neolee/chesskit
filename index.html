@@ -73,16 +73,16 @@
                 <div class="form-inline my-2">
                     <button id="emptyBtn" class="btn btn-primary mr-2" type="button">Empty</button>
                     <button id="startBtn" class="btn btn-primary mr-2" type="button">Start</button>
-                    <button id="posBtn" class="btn btn-primary mr-2" type="button">Pos</button>
                     <div class="input-group mr-2">
                         <span class="input-group-btn">
                             <button id="fenBtn" class="btn btn-primary" type="button">FEN</button>
                         </span>
-                        <input id="fenInput" type="text" class="form-control" size="60" value="r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R" />
+                        <input id="fenInput" type="text" class="form-control" size="80" value="r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3" />
                     </div>
-                    <button id="freeformBtn" class="btn btn-primary mr-2" type="Button">Freeform</button>
                 </div>
                 <div class="form-inline my-2">
+                    <button id="posBtn" class="btn btn-primary mr-2" type="button">Predefined</button>
+                    <button id="freeformBtn" class="btn btn-primary mr-2" type="Button">Freeform</button>
                     <button id="playBtn" class="btn btn-primary mr-2" type="Button">Play!</button>
                 </div>
             </div>
@@ -110,9 +110,9 @@
         $('#emptyBtn').on('click', init);
         $('#startBtn').on('click', start);
         $('#fenBtn').on('click', fen);
+
         $('#posBtn').on('click', pos);
         $('#freeformBtn').on('click', freeform);
-
         $('#playBtn').on('click', play);
     </script>
 </body>
