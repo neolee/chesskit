@@ -156,11 +156,27 @@ var pos = function () {
 };
 
 var freeform = function () {
+    if (gBoard1) gBoard1.destroy();
 
+    gBoard1 = ChessBoard('board1', {
+        orientation: gOrientation,
+        showNotation: gNotation,
+        draggable: true,
+        dropOffBoard: 'trash',
+        sparePieces: true
+    });
 };
 
+var playWhite = function () {
+    gPlayColor = 'w';
+}
+
+var playBlack = function () {
+    gPlayColor = 'b';
+}
+
 var play = function () {
-    var fen = fenNormalize(gBoard1.fen(), 'w', 'KQkq');
+    var fen = fenNormalize(gBoard1.fen(), gPlayColor, 'KQkq');
     var cfg = makeConfig(fen, new Chess(fen));
     gBoard1 = ChessBoard('board1', cfg);
 };

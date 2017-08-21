@@ -83,7 +83,21 @@
                 <div class="form-inline my-2">
                     <button id="posBtn" class="btn btn-primary mr-2" type="button">Predefined</button>
                     <button id="freeformBtn" class="btn btn-primary mr-2" type="Button">Freeform</button>
-                    <button id="playBtn" class="btn btn-primary mr-2" type="Button">Play!</button>
+                    <div class="input-group mr-2">
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label">
+                            <input id="playWhiteBtn" class="form-check-input" type="radio" name="playRadios" value="white" checked />
+                            White First
+                        </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label">
+                            <input id="playBlackBtn" class="form-check-input" type="radio" name="playRadios" value="black" />
+                            Black First
+                        </label>
+                        </div>
+                    </div>
+                        <button id="playBtn" class="btn btn-primary mr-2" type="Button">Play!</button>
                 </div>
             </div>
         </div>
@@ -111,8 +125,11 @@
         $('#startBtn').on('click', start);
         $('#fenBtn').on('click', fen);
 
+        var gPlayColor = 'w';
         $('#posBtn').on('click', pos);
         $('#freeformBtn').on('click', freeform);
+        $('#playWhiteBtn').on('click', playWhite);
+        $('#playBlackBtn').on('click', playBlack);
         $('#playBtn').on('click', play);
     </script>
 </body>
