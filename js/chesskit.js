@@ -75,7 +75,11 @@ var toggleNotation = function () {
     gNotation = !gNotation;
 }
 
-var config = function () {
+var freeform = function () {
+    
+}
+
+var play = function () {
     var game = new Chess(),
         statusEl = $('#statusInfo'),
         fenEl = $('#fenInfo'),

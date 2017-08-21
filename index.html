@@ -10,6 +10,7 @@
 
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="css/chessboard-0.3.0.css" />
+    <link rel="stylesheet" href="css/chesskit.css" />
 
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/popper/umd/popper.min.js"></script>
@@ -23,70 +24,76 @@
         <div class="container-fluid">
             <h1>Welcome to ChessKit</h1>
 
-            <div id="board1" style="width: 300px; float: left; margin-right: 10px"></div>
-            <div id="board2" style="width: 300px; float: left; margin-right: 10px"></div>
-            <div id="board3" style="width: 300px; float: left"></div>
+            <div id="board1" style="width: 360px; float: left; margin-right: 10px"></div>
+            <div id="board2" style="width: 360px; float: left; margin-right: 10px"></div>
+            <div id="board3" style="width: 360px; float: left"></div>
             <div style="clear:both"></div>
             <div id="info" class="mb-4">
                 Status: <span id="statusInfo"></span><br /> FEN: <span id="fenInfo"></span><br /> PGN: <span id="pgnInfo"></span>
             </div>
 
-            <div class="input-group">
-                <div class="form-check form-check-inline">
-                    <label class="form-check-label">
+            <div>
+                <div class="input-group">
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label">
                         <input id="singleBtn" class="form-check-input" type="radio" name="boardRadios" value="single" checked />
                         Single Board
                     </label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <label class="form-check-label">
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label">
                         <input id="multiBtn" class="form-check-input" type="radio" name="boardRadios" value="multi" />
                         Three Boards
                     </label>
+                    </div>
                 </div>
-            </div>
 
-            <div class="input-group">
-                <div class="form-check form-check-inline">
-                    <label class="form-check-label">
+                <div class="input-group">
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label">
                         <input id="whiteBtn" class="form-check-input" type="radio" name="orientationRadios" value="white" checked />
                         As White
                     </label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <label class="form-check-label">
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label">
                         <input id="blackBtn" class="form-check-input" type="radio" name="orientationRadios" value="black" />
                         As Black
                     </label>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-check">
-                <label class="form-check-label">
-                    <input id="notationBtn" class="form-check-input" type="checkbox" value="" checked />
+                <div class="form-check">
+                    <label class="form-check-label">
+                    <input id="notationBtn" class="form-check-input" type="checkbox" value="" />
                     Show Notation (needs re-arrange to apply)
                 </label>
-            </div>
+                </div>
 
-            <div class="input-group">
-                <span class="input-group-addon">FEN</span>
-                <input id="fenInput" type="text" class="form-control" value="r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R" />
-            </div>
-            <div class="form-group my-2">
-                <input id="emptyBtn" type="button" class="btn btn-primary" value="Empty" />
-                <input id="startBtn" type="button" class="btn btn-primary" value="Start" />
-                <input id="fenBtn" type="button" class="btn btn-primary" value="FEN" />
-                <input id="posBtn" type="button" class="btn btn-primary" value="Position" />
-                <input id="configBtn" type="button" class="btn btn-primary" value="Config" />
+                <div class="form-inline my-2">
+                    <button id="emptyBtn" class="btn btn-primary mr-2" type="button">Empty</button>
+                    <button id="startBtn" class="btn btn-primary mr-2" type="button">Start</button>
+                    <button id="posBtn" class="btn btn-primary mr-2" type="button">Pos</button>
+                    <div class="input-group mr-2">
+                        <span class="input-group-btn">
+                            <button id="fenBtn" class="btn btn-primary" type="button">FEN</button>
+                        </span>
+                        <input id="fenInput" type="text" class="form-control" size="60" value="r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R" />
+                    </div>
+                    <button id="freeformBtn" class="btn btn-primary mr-2" type="Button">Freeform</button>
+                </div>
+                <div class="form-inline my-2">
+                    <button id="playBtn" class="btn btn-primary mr-2" type="Button">Play!</button>
+                </div>
             </div>
         </div>
     </div>
 
     <script src="js/chesskit.js"></script>
     <script>
-        var gBoard1 = null;
-        var gBoard2 = null;
-        var gBoard3 = null;
+        var gBoard1 = null,
+            gBoard2 = null,
+            gBoard3 = null;
 
         $(document).ready(init);
 
@@ -97,14 +104,16 @@
         $('#whiteBtn').on('click', white);
         $('#blackBtn').on('click', black);
 
-        var gNotation = true;
+        var gNotation = false;
         $('#notationBtn').on('click', toggleNotation);
 
         $('#emptyBtn').on('click', init);
         $('#startBtn').on('click', start);
         $('#fenBtn').on('click', fen);
         $('#posBtn').on('click', pos);
-        $('#configBtn').on('click', config);
+        $('#freeformBtn').on('click', freeform);
+
+        $('#playBtn').on('click', play);
     </script>
 </body>
 
