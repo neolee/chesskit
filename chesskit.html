@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>ChessKit</title>
+
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="css/chessboard-0.3.0.css" />
+    <link rel="stylesheet" href="css/chesskit.css" />
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/popper/umd/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/chess.min.js"></script>
+    <script src="js/chessboard-0.3.0.js"></script>
+</head>
+
+<body>
+    <div class="body">
+        <div class="container-fluid">
+            <h1>Welcome to ChessKit</h1>
+
+            <div id="board1" style="width: 400px; float: left; margin-right: 10px"></div>
+            <div id="board2" style="width: 200px; float: left; margin-right: 10px"></div>
+            <div id="board3" style="width: 200px; float: left"></div>
+            <div style="clear:both"></div>
+            <div id="info" class="small mt-2 mb-4">
+                <strong>Status</strong> <span id="statusInfo"></span><br />
+                <strong>FEN</strong> <span id="fenInfo"></span><br />
+                <strong>PGN</strong> <span id="pgnInfo"></span>
+            </div>
+
+            <div>
+                <div class="input-group">
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                        <input id="singleBtn" class="form-check-input" type="radio" name="boardRadios" value="single" checked />
+                        Single Board
+                    </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                        <input id="multiBtn" class="form-check-input" type="radio" name="boardRadios" value="multi" />
+                        Three Boards
+                    </label>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                        <input id="whiteBtn" class="form-check-input" type="radio" name="orientationRadios" value="white" checked />
+                        As White
+                    </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                        <input id="blackBtn" class="form-check-input" type="radio" name="orientationRadios" value="black" />
+                        As Black
+                    </label>
+                    </div>
+                </div>
+
+                <div class="form-check">
+                    <label class="form-check-label">
+                    <input id="notationBtn" class="form-check-input" type="checkbox" value="" />
+                    Show Notation (needs re-arrange to apply)
+                </label>
+                </div>
+
+                <div class="form-inline my-2">
+                    <button id="emptyBtn" class="btn btn-primary mr-2" type="button">Empty</button>
+                    <button id="startBtn" class="btn btn-primary mr-2" type="button">Start</button>
+                    <div class="input-group mr-2">
+                        <span class="input-group-btn">
+                            <button id="fenBtn" class="btn btn-primary" type="button">FEN</button>
+                        </span>
+                        <input id="fenInput" type="text" class="form-control" size="80" value="r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3" />
+                    </div>
+                </div>
+                <div class="form-inline my-2">
+                    <button id="posBtn" class="btn btn-primary mr-2" type="button">Predefined</button>
+                    <button id="freeformBtn" class="btn btn-primary mr-2" type="Button">Freeform</button>
+                    <div class="input-group mr-2">
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label">
+                            <input id="playWhiteBtn" class="form-check-input" type="radio" name="playRadios" value="white" checked />
+                            White First
+                        </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label">
+                            <input id="playBlackBtn" class="form-check-input" type="radio" name="playRadios" value="black" />
+                            Black First
+                        </label>
+                        </div>
+                    </div>
+                    <button id="playBtn" class="btn btn-primary mr-2" type="Button">Play!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/chesskit.js"></script>
+    <script src="js/chesskit-helper.js"></script>
+    <script>
+        // Constants for element IDs
+        const BOARD1_ID = 'board1';
+        const BOARD2_ID = 'board2';
+        const BOARD3_ID = 'board3';
+        const STATUS_INFO_ID = 'statusInfo';
+        const FEN_INFO_ID = 'fenInfo';
+        const PGN_INFO_ID = 'pgnInfo';
+        const FEN_INPUT_ID = 'fenInput';
+
+        // Due to lack of object tracking function in chessboard.js
+        // We need to track board objects by global variables
+        var gBoard1 = null,
+            gBoard2 = null,
+            gBoard3 = null;
+
+        // Global variables for configurations
+        var gOrientation = 'white';
+        var gNotation = false;
+        var gPlayColor = 'w';
+            
+        $(document).ready(init);
+
+        $('#singleBtn').on('click', single);
+        $('#multiBtn').on('click', multi);
+        $('#whiteBtn').on('click', {orientation: 'white'}, orientation);
+        $('#blackBtn').on('click', {orientation: 'black'}, orientation);
+        $('#notationBtn').on('click', toggleNotation);
+
+        $('#emptyBtn').on('click', init);
+        $('#startBtn').on('click', start);
+        $('#fenBtn').on('click', fen);
+
+        $('#posBtn').on('click', pos);
+        $('#freeformBtn').on('click', freeform);
+        $('#playWhiteBtn').on('click', {playOrder: 'w'}, playOrder);
+        $('#playBlackBtn').on('click', {playOrder: 'b'}, playOrder);
+        $('#playBtn').on('click', play);
+    </script>
+</body>
+
+</html>
