@@ -33,9 +33,14 @@ var pos = function () {
 var freeform = function () {
     if (gBoard1) gBoard1.destroy();
 
+    var position = {
+        e1: 'wK',
+        e8: 'bK'
+        };
     gBoard1 = ChessBoard(BOARD1_ID, {
         orientation: gOrientation,
         showNotation: gNotation,
+        position: position,
         draggable: true,
         dropOffBoard: 'trash',
         sparePieces: true
