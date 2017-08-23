@@ -57,16 +57,16 @@ var play = function () {
 
 var white = function () {
     gOrientation = 'white';
-    gBoard1.orientation(gOrientation);
-    gBoard2.orientation(gOrientation);
-    gBoard3.orientation(gOrientation);
+    if (gBoard1) gBoard1.orientation(gOrientation);
+    if (gBoard2) gBoard2.orientation(gOrientation);
+    if (gBoard3) gBoard3.orientation(gOrientation);
 };
 
 var black = function () {
     gOrientation = 'black';
-    gBoard1.orientation(gOrientation);
-    gBoard2.orientation(gOrientation);
-    gBoard3.orientation(gOrientation);
+    if (gBoard1) gBoard1.orientation(gOrientation);
+    if (gBoard2) gBoard2.orientation(gOrientation);
+    if (gBoard3) gBoard3.orientation(gOrientation);
 };
 
 var multi = function () {
@@ -86,9 +86,9 @@ var multi = function () {
 };
 
 var single = function () {
-    gBoard2.destroy;
+    if (gBoard2) gBoard2.destroy;
     $('#' + BOARD2_ID).hide();
-    gBoard3.destroy;
+    if (gBoard3) gBoard3.destroy;
     $('#' + BOARD3_ID).hide();
 };
 
