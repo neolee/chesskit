@@ -1,18 +1,20 @@
-var fenNormalize = function (_pos, _active, _castling) {
+var makeFEN = function (_pos, _active, _castling) {
     return _pos + ' ' + _active + ' ' + _castling + ' - 0 1';
 };
 
-var makeConfig = function (_pos, _game) {
-    var statusEl = $('#statusInfo'),
-        fenEl = $('#fenInfo'),
-        pgnEl = $('#pgnInfo');
+var makeBoard = function (_boardId, _pos, _game, _orientation, _notation, _statusId, _fenId, _pgnId) {
+    var board = null;
+
+    var statusEl = $('#' + _statusId),
+        fenEl = $('#' + _fenId),
+        pgnEl = $('#' + _pgnId);
 
     var removeGreySquares = function () {
-        $('#board1 .square-55d63').css('background', '');
+        $('#' + _boardId + ' .square-55d63').css('background', '');
     };
 
     var greySquare = function (square) {
-        var squareEl = $('#board1 .square-' + square);
+        var squareEl = $('#' + _boardId + ' .square-' + square);
 
         var background = '#a9a9a9';
         if (squareEl.hasClass('black-3c85d') === true) {
@@ -74,7 +76,7 @@ var makeConfig = function (_pos, _game) {
     // update the board position after the piece snap 
     // for castling, en passant, pawn promotion
     var onSnapEnd = function () {
-        gBoard1.position(_game.fen());
+        board.position(_game.fen());
     };
 
     var updateStatus = function () {
@@ -111,8 +113,8 @@ var makeConfig = function (_pos, _game) {
     };
     
     var config = {
-        orientation: gOrientation,
-        showNotation: gNotation,
+        orientation: _orientation,
+        showNotation: _notation,
         position: _pos,
         draggable: true,
         onDragStart: onDragStart,
@@ -121,103 +123,9 @@ var makeConfig = function (_pos, _game) {
         onMouseoverSquare: onMouseoverSquare,
         onSnapEnd: onSnapEnd
     };
-    
+
+    board = ChessBoard(_boardId, config);
     updateStatus();
 
-    return config;
-};
-
-var init = function () {
-    gBoard1 = ChessBoard('board1', {
-        showNotation: gNotation,
-    });
-};
-
-var start = function () {
-    gBoard1 = ChessBoard('board1', makeConfig('start', new Chess()));
-};
-
-var fen = function () {
-    var ruyLopez = $('#fenInput').val();
-    gBoard1 = ChessBoard('board1', makeConfig(ruyLopez, new Chess(ruyLopez)));
-};
-
-var pos = function () {
-    var position = {
-        a4: 'bK',
-        c4: 'wK',
-        d7: 'wR'
-        };
-    gBoard1 = ChessBoard('board1', {
-        orientation: gOrientation,
-        showNotation: gNotation,
-        position: position
-    });
-};
-
-var freeform = function () {
-    if (gBoard1) gBoard1.destroy();
-
-    gBoard1 = ChessBoard('board1', {
-        orientation: gOrientation,
-        showNotation: gNotation,
-        draggable: true,
-        dropOffBoard: 'trash',
-        sparePieces: true
-    });
-};
-
-var playWhite = function () {
-    gPlayColor = 'w';
-}
-
-var playBlack = function () {
-    gPlayColor = 'b';
-}
-
-var play = function () {
-    var fen = fenNormalize(gBoard1.fen(), gPlayColor, 'KQkq');
-    var cfg = makeConfig(fen, new Chess(fen));
-    gBoard1 = ChessBoard('board1', cfg);
-};
-
-var white = function () {
-    gOrientation = 'white';
-    gBoard1.orientation(gOrientation);
-    gBoard2.orientation(gOrientation);
-    gBoard3.orientation(gOrientation);
-};
-
-var black = function () {
-    gOrientation = 'black';
-    gBoard1.orientation(gOrientation);
-    gBoard2.orientation(gOrientation);
-    gBoard3.orientation(gOrientation);
-};
-
-var multi = function () {
-    gBoard2 = ChessBoard('board2', {
-        orientation: gOrientation,
-        showNotation: gNotation,
-        position: 'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R'
-    });
-    $('#board2').show();
-
-    gBoard3 = ChessBoard('board3', {
-        orientation: gOrientation,
-        showNotation: gNotation,
-        position: 'r1k4r/p2nb1p1/2b4p/1p1n1p2/2PP4/3Q1NB1/1P3PPP/R5K1'
-    });
-    $('#board3').show();
-};
-
-var single = function () {
-    gBoard2.destroy;
-    $('#board2').hide();
-    gBoard3.destroy;
-    $('#board3').hide();
-};
-
-var toggleNotation = function () {
-    gNotation = !gNotation;
+    return board;
 };

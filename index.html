@@ -106,28 +106,40 @@
     </div>
 
     <script src="js/chesskit.js"></script>
+    <script src="js/main.js"></script>
     <script>
+        // Constants for element IDs
+        const BOARD1_ID = 'board1';
+        const BOARD2_ID = 'board2';
+        const BOARD3_ID = 'board3';
+        const STATUS_INFO_ID = 'statusInfo';
+        const FEN_INFO_ID = 'fenInfo';
+        const PGN_INFO_ID = 'pgnInfo';
+        const FEN_INPUT_ID = 'fenInput';
+
+        // Due to lack of object tracking function in chessboard.js
+        // We need to track board objects by global variables
         var gBoard1 = null,
             gBoard2 = null,
             gBoard3 = null;
 
+        // Global variables for configurations
+        var gOrientation = 'white';
+        var gNotation = false;
+        var gPlayColor = 'w';
+            
         $(document).ready(init);
 
         $('#singleBtn').on('click', single);
         $('#multiBtn').on('click', multi);
-
-        var gOrientation = 'white';
         $('#whiteBtn').on('click', white);
         $('#blackBtn').on('click', black);
-
-        var gNotation = false;
         $('#notationBtn').on('click', toggleNotation);
 
         $('#emptyBtn').on('click', init);
         $('#startBtn').on('click', start);
         $('#fenBtn').on('click', fen);
 
-        var gPlayColor = 'w';
         $('#posBtn').on('click', pos);
         $('#freeformBtn').on('click', freeform);
         $('#playWhiteBtn').on('click', playWhite);
