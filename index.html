@@ -132,8 +132,8 @@
 
         $('#singleBtn').on('click', single);
         $('#multiBtn').on('click', multi);
-        $('#whiteBtn').on('click', white);
-        $('#blackBtn').on('click', black);
+        $('#whiteBtn').on('click', {orientation: 'white'}, orientation);
+        $('#blackBtn').on('click', {orientation: 'black'}, orientation);
         $('#notationBtn').on('click', toggleNotation);
 
         $('#emptyBtn').on('click', init);
@@ -142,8 +142,8 @@
 
         $('#posBtn').on('click', pos);
         $('#freeformBtn').on('click', freeform);
-        $('#playWhiteBtn').on('click', playWhite);
-        $('#playBlackBtn').on('click', playBlack);
+        $('#playWhiteBtn').on('click', {playOrder: 'w'}, playOrder);
+        $('#playBlackBtn').on('click', {playOrder: 'b'}, playOrder);
         $('#playBtn').on('click', play);
     </script>
 </body>
