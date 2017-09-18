@@ -73,7 +73,7 @@ var makeBoard = function (_boardId, _pos, _game, _orientation, _notation, _statu
         updateStatus();
     };
 
-    // update the board position after the piece snap 
+    // update the board position after the piece snap
     // for castling, en passant, pawn promotion
     var onSnapEnd = function () {
         board.position(_game.fen());
@@ -81,37 +81,37 @@ var makeBoard = function (_boardId, _pos, _game, _orientation, _notation, _statu
 
     var updateStatus = function () {
         var status = '';
-    
+
         var moveColor = 'White';
         if (_game.turn() === 'b') {
             moveColor = 'Black';
         }
-    
+
         // checkmate?
         if (_game.in_checkmate() === true) {
             status = 'Game over, ' + moveColor + ' is in checkmate.';
         }
-    
+
         // draw?
         else if (_game.in_draw() === true) {
             status = 'Game over, drawn position';
         }
-    
+
         // game still on
         else {
             status = moveColor + ' to move';
-    
+
             // check?
             if (_game.in_check() === true) {
                 status += ', ' + moveColor + ' is in check';
             }
         }
-    
+
         statusEl.html(status);
         fenEl.html(_game.fen());
         pgnEl.html(_game.pgn());
     };
-    
+
     var config = {
         orientation: _orientation,
         showNotation: _notation,
